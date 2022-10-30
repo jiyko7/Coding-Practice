@@ -1,0 +1,25 @@
+class Solution {
+    public int[] solution(long begin, long end) {
+        int beginInt = (int)begin;
+        int endInt = (int)end;      
+        int[] answer = new int[endInt-beginInt+1];
+        int index = 0;
+       
+        for (int i= beginInt; i<= endInt; i++){
+            boolean check = false;
+            if (i == 1){
+                answer[index++] = 0;
+                continue;
+            }
+            for (int j = 2; j*j <= i; j++) {
+                if (i%j == 0 && i/j <= 1000000000){
+                    answer[index++] = i/j;
+                    check = true;
+                    break;
+                }
+            } 
+            if(!check) answer[index++] = 1;
+        }
+        return answer;
+    }
+}

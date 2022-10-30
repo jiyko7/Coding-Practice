@@ -1,0 +1,63 @@
+카카오 비밀지도 
+
+class Solution {
+    public String[] solution(int n, int[] arr1, int[] arr2) {
+        
+        String[] com1 = calculate(n, arr1);
+        String[] com2 = calculate(n, arr2);
+        String[] answer = com1;
+        
+        for (int i= 0; i<n; i++){
+            StringBuilder sb = new StringBuilder();
+            for (int j= 0; j<n; j++){
+                if (com1[i].charAt(j)=='1' || com2[i].charAt(j)=='1'){
+                    sb.append("#");
+                }
+                else{
+                    sb.append(" ");
+                }
+            }
+            answer[i] = sb.toString();
+        }
+
+        return answer;
+    
+    
+    }
+    
+    public String[] calculate(int n, int[] arr){
+        String[] calc = new String[n];
+        int index = 0;
+        for (int i : arr){
+            StringBuilder sb = new StringBuilder();
+            for (int j = n-1; j>=0; j--){
+                sb.append(i%2);
+                i = i / 2;
+            }
+            
+            calc[index++] = sb.reverse().toString();
+        }
+        return calc ; 
+    }
+    
+}
+
+
+
+
+class Solution {
+  public String[] solution(int n, int[] arr1, int[] arr2) {
+      String[] answer = new String[n];
+      String temp;
+
+      for(int i = 0 ; i < n ; i++){
+          temp = String.format("%16s", Integer.toBinaryString(arr1[i] | arr2[i]));
+          temp = temp.substring(temp.length() - n);
+          temp = temp.replaceAll("1", "#");
+          temp = temp.replaceAll("0", " ");
+          answer[i] = temp;
+      }
+
+      return answer;
+  }
+}

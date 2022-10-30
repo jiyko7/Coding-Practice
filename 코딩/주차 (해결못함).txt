@@ -1,0 +1,95 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] fees, String[] records) {
+        ArrayList<Car> list = new ArrayList<>();
+        ArrayList<String> array = new ArrayList<>();
+        
+        for (String s : records){
+            String[] arr = s.split(" ");
+            if (arr[2].equals("IN")){
+                list.add(new Car(arr[1], arr[0]));
+            }
+            else {
+                for (Car c: list){
+                    if (c.name.equals(arr[1]))
+                        if (c.OutTime.equals("23:59"))
+                            c.SetOut(arr[0]);
+                }
+                
+            }     
+        }
+        Collections.sort(list);
+        for (Car cc: list) {
+            cc.print();
+        }
+        
+        for (Car l: list){
+            if (array.indexOf(l.name) != -1){
+                array.set(array.indexOf(l.name)+1, Integer.parseInt(array.get(array.indexOf(l.name)+1)) + l.calucate()+"");
+                      
+            }
+            else{
+                array.add(l.name);
+                array.add(String.valueOf(l.calucate()));
+            }
+        }
+        
+        for (String ss: array) {
+            System.out.println(ss);
+        }
+        int[] answer = new int[array.size()/2];
+        for (int i = 1; i<array.size(); i+=2){
+            int temp = Integer.parseInt(array.get(i));
+            if (temp > fees[0]){
+                answer[i/2] += fees[1]+Math.ceil((double)(temp - fees[0])/fees[2]) * fees[3];
+            }
+            else{
+                 answer[i/2] += fees[1];
+            }
+            
+            
+        }
+        
+        return answer;
+    }
+    
+    
+    class Car implements Comparable<Car>{
+        String name;
+        String InTime;
+        String OutTime = "23:59";
+        
+        public Car(String name, String Intime){
+            this.name = name;
+            this.InTime = Intime;
+        }
+        
+        public void SetOut(String OutTime){
+            this.OutTime = OutTime;
+        }
+        
+        public int calucate(){
+            String[] In = InTime.split(":");
+            String[] Out = OutTime.split(":");
+            
+            int time1 = Integer.parseInt(In[0])*60 + Integer.parseInt(In[1]);
+            int time2 = Integer.parseInt(Out[0])*60 + Integer.parseInt(Out[1]);
+            
+            return time2 - time1;
+        }
+        
+        public void print(){
+            System.out.println(name);
+            System.out.println(InTime);
+            System.out.println(OutTime);
+            System.out.println(calucate());
+            System.out.println("");
+        }
+        
+        @Override   
+        public int compareTo(Car car) {
+            return name.compareTo(car.name);
+        }
+    }
+}

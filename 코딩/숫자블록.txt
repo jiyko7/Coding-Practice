@@ -1,0 +1,32 @@
+class Solution {
+    public int[] solution(long begin, long end) {
+        int[] answer = new int[(int)(end-begin+1)];
+        int index = 0;
+        int div;
+        for (int i= Math.min((int)begin,1000000000); i<= end; i++){
+            if (i == 1){
+                answer[index++] = 0;
+                continue;
+            }
+            div = 2;
+            while (true){
+                if (i%div == 0){
+                    if (i/div < 1000000000){
+                        answer[index++] = i/div;
+                        break;
+                    }
+                }
+                if (div>Math.sqrt(i)){
+                    answer[index++] = 1;
+                    break;
+                }
+                div++;  
+            }
+            
+        }
+        return answer;
+    }
+}
+
+
+
